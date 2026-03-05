@@ -16,7 +16,8 @@ class Serie extends Model
         'tvmaze_id',
         'title',
         'poster_url',
-        'is_completed'
+        'is_completed',
+        'premiered'
     ];
 
     // 3. Relación: Una serie tiene muchas temporadas
