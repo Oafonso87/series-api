@@ -14,7 +14,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/series/{id}/status', [SerieController::class, 'updateStatus']);
     Route::put('/seasons/{id}', [SerieController::class, 'updateSeason']);
     Route::get('/search', [SerieController::class, 'search']);
+    Route::post('/series/{id}/seasons', [SerieController::class, 'addSeason']);
 });
-
-
-

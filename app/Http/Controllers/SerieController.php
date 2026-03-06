@@ -99,4 +99,33 @@ class SerieController extends Controller
 
         return response()->json(['message' => 'Estado actualizado', 'data' => $serie]);
     }
+
+    // 7. AÑADIR NUEVA TEMPORADA: Calcula la siguiente y la crea
+    public function addSeason(Request $request, $id)
+    {
+        // 1. Buscamos la serie asegurándonos de que es tuya
+        $serie = Serie::where('id', $id)
+            ->where('user_id', $request->user()->id)
+            ->firstOrFail();
+
+        // 2. Calculamos el número de la siguiente temporada
+        $nextSeasonNumber = $serie->seasons()->max('season_number') + 1;
+
+        // Por si acaso la serie no tuviera temporadas previas
+        if (!$nextSeasonNumber) {
+            $nextSeasonNumber = 1;
+        }
+
+        // 3. Creamos la nueva temporada
+        $season = Season::create([
+            'series_id' => $serie->id,
+            'season_number' => $nextSeasonNumber,
+            'is_seen' => false
+        ]);
+
+        return response()->json([
+            'message' => 'Nueva temporada añadida',
+            'data' => $season
+        ], 201);
+    }
 }
